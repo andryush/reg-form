@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
-import "../hoc/FormCard/FormCard";
 import FormCrad from "../hoc/FormCard/FormCard";
-// import Field from "../Field/Field";
-// import RadioButton from "../RadioButton/RadioButton";
 import ControlButtons from "../ControlButtons/ControlButtons";
 import StatusBar from "../StatusBar/StatusBar";
 import StepBasic from "../StepBasic/StepBasic";
+import StepContacts from "../StepContacts/StepContacts";
 
 class App extends Component {
   constructor() {
@@ -19,12 +17,18 @@ class App extends Component {
       password: "",
       repeatPassword: "",
       gender: "Male",
+      email: "",
+      mobile: "",
+      country: "6",
+      city: "Yerevan",
       step: 1,
       errors: {
         firstname: false,
         lastname: false,
         password: false,
         repeatPassword: false,
+        email: false,
+        mobile: false,
       },
     };
   }
@@ -54,6 +58,20 @@ class App extends Component {
 
     if (this.state.repeatPassword !== this.state.password) {
       errors.repeatPassword = "Must be equal password";
+    }
+
+    if (this.state.step === 2) {
+      if (
+        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email)
+      ) {
+        errors.email = "Invalid email address";
+      }
+    }
+
+    if (this.state.step === 2) {
+      if (!this.state.mobile.match(/^\d{9}$/)) {
+        errors.mobile = "Invalid mobile. Must be 9 digits";
+      }
     }
 
     if (Object.keys(errors).length > 0) {
@@ -87,12 +105,16 @@ class App extends Component {
       password,
       repeatPassword,
       gender,
+      email,
+      mobile,
+      country,
+      city,
       step,
     } = this.state;
     return (
       <div className="container">
         <FormCrad>
-          <StatusBar step={step}/>
+          <StatusBar step={step} />
           <form>
             {step === 1 ? (
               <StepBasic
@@ -101,7 +123,16 @@ class App extends Component {
                 password={password}
                 repeatPassword={repeatPassword}
                 gender={gender}
-                step={step}
+                onChange={this.onChange}
+                errors={this.state.errors}
+              />
+            ) : null}
+            {step === 2 ? (
+              <StepContacts
+                email={email}
+                mobile={mobile}
+                country={country}
+                city={city}
                 onChange={this.onChange}
                 errors={this.state.errors}
               />
