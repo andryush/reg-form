@@ -8,7 +8,7 @@ import StatusBar from "../StatusBar/StatusBar";
 import StepBasic from "../StepBasic/StepBasic";
 import StepContacts from "../StepContacts/StepContacts";
 import StepAvatar from "../StepAvatar/StepAvatar";
-
+import StepFinish from "../StepFinish/StepFinish";
 
 class App extends Component {
   constructor() {
@@ -51,8 +51,8 @@ class App extends Component {
       this.setState({
         avatar: event.target.result,
         errors: {
-            avatar: ''
-        }
+          avatar: "",
+        },
       });
     };
   };
@@ -162,22 +162,36 @@ class App extends Component {
                 errors={this.state.errors}
               />
             ) : null}
-            {step === 3 ?
-            <StepAvatar
-              avatar={avatar}
-              id="avatar"
-              labelText="Choose avatar"
-              name="avatar"
-              onChange={this.onChangeAvatar}
-              errors={this.state.errors}
-            /> : null
-            }
+            {step === 3 ? (
+              <StepAvatar
+                avatar={avatar}
+                id="avatar"
+                labelText="Choose avatar"
+                name="avatar"
+                onChange={this.onChangeAvatar}
+                errors={this.state.errors}
+              />
+            ) : null}
 
-            <ControlButtons
-              onSubmit={this.onSubmit}
-              step={step}
-              decrementStep={this.decrementStep}
-            />
+            {step > 0 && step < 4 ? (
+              <ControlButtons
+                onSubmit={this.onSubmit}
+                step={step}
+                decrementStep={this.decrementStep}
+              />
+            ) : null}
+
+            {step === 4 ? (
+              <StepFinish
+                avatar={avatar}
+                firstname={firstname}
+                lastname={lastname}
+                email={email}
+                mobile={mobile}
+                country={country}
+                city={city}
+              />
+            ) : null}
           </form>
         </FormCrad>
       </div>

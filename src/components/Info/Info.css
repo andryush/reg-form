@@ -1,0 +1,27 @@
+.final-avatar {
+    width: 30%;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.first-info {
+    display: flex;
+    justify-content: center;
+
+}
+
+.name{
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+}
+
+
+
+.second-info, .first-info div {
+    width: 100%;
+}
+
+.second-info span {
+    font-weight: 700;
+}
