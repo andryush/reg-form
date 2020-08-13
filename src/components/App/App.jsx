@@ -22,7 +22,7 @@ class App extends Component {
       email: "",
       mobile: "",
       country: "6",
-      city: "Yerevan",
+      city: "",
       avatar: "",
       step: 1,
       errors: {
@@ -32,6 +32,7 @@ class App extends Component {
         repeatPassword: false,
         email: false,
         mobile: false,
+        city: false,
         avatar: false,
       },
     };
@@ -90,6 +91,12 @@ class App extends Component {
       if (!this.state.mobile.match(/^\d{9}$/)) {
         errors.mobile = "Invalid mobile. Must be 9 digits";
       }
+    }
+
+    if (this.state.step === 2) {
+        if(this.state.city === 'Select city' || this.state.city === '') {
+            errors.city = "Required"
+        }
     }
 
     if (this.state.step === 3) {

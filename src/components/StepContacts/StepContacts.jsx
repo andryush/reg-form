@@ -59,7 +59,9 @@ function StepContacts(props) {
         onChange={onChange}
         name="city"
         value={city}
+        error={errors.city}
       />
+      <ValidationError error={errors.city}/>
     </>
   );
 }
