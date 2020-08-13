@@ -7,6 +7,8 @@ import ControlButtons from "../ControlButtons/ControlButtons";
 import StatusBar from "../StatusBar/StatusBar";
 import StepBasic from "../StepBasic/StepBasic";
 import StepContacts from "../StepContacts/StepContacts";
+import StepAvatar from "../StepAvatar/StepAvatar";
+
 
 class App extends Component {
   constructor() {
@@ -21,6 +23,7 @@ class App extends Component {
       mobile: "",
       country: "6",
       city: "Yerevan",
+      avatar: "",
       step: 1,
       errors: {
         firstname: false,
@@ -29,6 +32,7 @@ class App extends Component {
         repeatPassword: false,
         email: false,
         mobile: false,
+        avatar: false,
       },
     };
   }
@@ -37,6 +41,20 @@ class App extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  };
+
+  onChangeAvatar = (event) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+
+    reader.onload = (event) => {
+      this.setState({
+        avatar: event.target.result,
+        errors: {
+            avatar: ''
+        }
+      });
+    };
   };
 
   onSubmit = (event) => {
@@ -71,6 +89,12 @@ class App extends Component {
     if (this.state.step === 2) {
       if (!this.state.mobile.match(/^\d{9}$/)) {
         errors.mobile = "Invalid mobile. Must be 9 digits";
+      }
+    }
+
+    if (this.state.step === 3) {
+      if (!this.state.avatar) {
+        errors.avatar = "Required";
       }
     }
 
@@ -109,6 +133,7 @@ class App extends Component {
       mobile,
       country,
       city,
+      avatar,
       step,
     } = this.state;
     return (
@@ -137,6 +162,16 @@ class App extends Component {
                 errors={this.state.errors}
               />
             ) : null}
+            {step === 3 ?
+            <StepAvatar
+              avatar={avatar}
+              id="avatar"
+              labelText="Choose avatar"
+              name="avatar"
+              onChange={this.onChangeAvatar}
+              errors={this.state.errors}
+            /> : null
+            }
 
             <ControlButtons
               onSubmit={this.onSubmit}
